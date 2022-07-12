@@ -1,14 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import "./App.css";
 import { createGlobalStyle } from "styled-components";
+import Router from "./Router";
 
 const GlobalStyle = createGlobalStyle`
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;400&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;1,100&display=swap');
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -26,7 +23,6 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -36,6 +32,9 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+  font-family: 'Roboto Mono', monospace;
+  background-color: ${(props) => props.theme.backgroundColor};
+  color : ${(props) => props.theme.textColor};
 }
 ol, ul {
 	list-style: none;
@@ -73,9 +72,11 @@ table {
 `;
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">ddss</header>
-    </div>
+    <>
+      {" "}
+      <GlobalStyle />
+      <Router />;
+    </>
   );
 }
 
