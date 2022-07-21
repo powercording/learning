@@ -5,3 +5,4 @@ var a = 1,
 console.log(a, b, d);
 console.log(typeof a);
 console.log("값은 %d", a);
+//주석을 달겠습니다.
