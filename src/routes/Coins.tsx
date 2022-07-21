@@ -1,3 +1,5 @@
+import axios, { Axios } from "axios";
+import { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
@@ -81,6 +83,17 @@ const testData = [
 ];
 
 function Coins() {
+  const [coinDate, setCoindata] = useState("");
+  const [isLoading, setLoading] = useState(true);
+  useEffect(() => {
+    axios
+      .get("https://api.coinone.co.kr/public/v2/markets/KRW/BTC", {
+        withCredentials: true,
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <Container>
       <NameWrapper>
