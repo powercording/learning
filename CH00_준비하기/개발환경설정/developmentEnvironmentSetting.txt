@@ -1,0 +1,26 @@
+1. Node.js 설치
+: 자바스크립트 런타임 환경 (jvm , jre 참고)
+-브라우저 밖에서도 자바스크립트 언어를 실행 할 수 있음.
+-클라이언트와 서버언어 모두로 사용할 수 있음.
+
+2.git 설치  (다음다음다음다음다음)
+
+3.익스텐선 설치 
+Code Runner
+Prettier
+icon
+HTML CSS Support
+Auto Rename Tag
+Auto Close Tag
+indent-rainbow
+CSS Peek
+Live Server
+TabOut
+Reactsnippets
+
+
+4.d2coding  글꼴 설치.
+-vscod 글꼴 적용.D2Coding
+-mouse wheel zoom  설정.
+-tab size = 2 설정.
+-AutoSave 설정.
