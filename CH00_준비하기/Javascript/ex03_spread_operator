@@ -1,0 +1,29 @@
+/*
+ *전개 구문
+ */
+
+//배열 리터럴 에서의 전개.
+const arr1 = [3, 4];
+const att2 = [7, 8, 9];
+
+const arr3 = [1, 2, ...arr1, 5, 6, ...att2, 10, 11];
+
+console.log(arr3);
+
+//객체 리터럴 에서의 전개.
+const obj1 = { name: "bar", age: 22 };
+
+const obj2 = { job: "student", gender: "male" };
+
+const cloneObj = { ...obj1, ...obj2 };
+
+console.log(cloneObj);
+
+//함수호출에서의 전개
+const numbers = [1, 2, 3];
+
+function sum(x, y, z) {
+  return x + y + z;
+}
+
+console.log(sum(...numbers));

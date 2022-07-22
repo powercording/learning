@@ -24,3 +24,12 @@ Reactsnippets
 -mouse wheel zoom  설정.
 -tab size = 2 설정.
 -AutoSave 설정.
+
+기획 설계 화면레이아웃
+
+디비버?
+
+컬렉션 =  {리스트 ( LinkeList , Stack , Vector,  ArrayList)
+셋 (HashSet , SortedSet->TreeSet) }
+
+맵 = { Hashtable , HashMap, SortedMap-> TreeMap}

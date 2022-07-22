@@ -6,3 +6,6 @@ console.log(a, b, d);
 console.log(typeof a);
 console.log("값은 %d", a);
 //주석을 달겠습니다.
+
+var json = { id: "bitcapm" };
+console.log(`hello mY name is ${json.id} 입니다`);
