@@ -9,3 +9,4 @@ console.log("값은 %d", a);
 
 var json = { id: "bitcapm" };
 console.log(`hello mY name is ${json.id} 입니다`);
+console.log("네");
