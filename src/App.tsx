@@ -1,4 +1,4 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";

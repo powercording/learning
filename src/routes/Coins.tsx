@@ -10,22 +10,20 @@ const Container = styled.div`
 const NameWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   grid-area: NameList;
   box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.2);
 `;
 
-const ListWrapper = styled.ul`
-  margin-top: 10px;
+const ListWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
-const ListOfCoins = styled.li`
-  margin: 4px;
-  padding: 4px;
-  max-width: 3vw;
-  min-width: 50px;
-  border-bottom: 1px solid rgba(226, 213, 213, 0.4);
+const ListOfCoins = styled.div`
+  background-color: white;
 `;
-const Coin = styled.span``;
+
 const CoinWrapper = styled.div`
   display: flex;
   height: 100vh;
@@ -40,73 +38,51 @@ const CoinName = styled.h2`
   color: ${(props) => props.theme.focusedColor};
   padding-left: 8px;
 `;
-
-const testData = [
-  {
-    result: "success",
-    error_code: "0",
-    server_time: "1416895635000",
-    markets: [
-      {
-        quote_currency: "KRW",
-        target_currency: "BTC",
-        price_unit: "100.0",
-        qty_unit: "0.0001",
-        max_order_amount: "1000000000.0",
-        max_price: "1000000000000.0",
-        max_qty: "100000000.0",
-        min_order_amount: "0.0001",
-        min_price: "0.0001",
-        min_qty: "0.00000001",
-        order_book_units: [],
-        maintenance_status: 0,
-        trade_status: 1,
-      },
-      {
-        quote_currency: "KRW",
-        target_currency: "ETH",
-        price_unit: "10000.0",
-        qty_unit: "0.0001",
-        max_order_amount: "1000000000.0",
-        max_price: "100000000.0",
-        max_qty: "100.0",
-        min_order_amount: "500.0",
-        min_price: "0.0001",
-        min_qty: "0.00000001",
-        order_book_units: ["50000.0", "100000.0"],
-        maintenance_status: 0,
-        trade_status: 1,
-        order_types: ["limit", "market"],
-      },
-    ],
-  },
-];
+interface IPrice {
+  price: string;
+  qty: string;
+}
+type ICoinData = {
+  quote_currency: string;
+  target_currency: string;
+  timestamp: string;
+  high: string;
+  low: string;
+  first: string;
+  last: string;
+  quote_volume: string;
+  target_volume: string;
+  best_ask: IPrice[];
+  id: string;
+};
 
 function Coins() {
-  const [coinDate, setCoindata] = useState("");
+  const [coinData, setCoindata] = useState<ICoinData[]>([]);
   const [isLoading, setLoading] = useState(true);
+
   useEffect(() => {
     axios
-      .get("https://api.coinone.co.kr/public/v2/markets/KRW/BTC", {
+      .get("https://api.coinone.co.kr/public/v2/ticker_new/KRW", {
         withCredentials: true,
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        setLoading(false);
+        setCoindata((preValue) => res.data.tickers.slice(0, 100));
+      })
       .catch((err) => console.log(err));
   }, []);
+
+  console.log(coinData);
 
   return (
     <Container>
       <NameWrapper>
-        <Header>coins</Header>
+        <Header>{isLoading ? "Loading" : "COIN"}</Header>
         <CoinName>names</CoinName>
         <ListWrapper>
-          {testData[0].markets.map((coinId) => (
-            <Link to={`/${coinId.target_currency}`}>
-              <ListOfCoins>
-                <Coin key={coinId.target_currency}>
-                  {coinId.target_currency}
-                </Coin>
-              </ListOfCoins>
+          {coinData.map((coin, index) => (
+            <Link key={index} to={`/${coin.target_currency}`}>
+              <ListOfCoins>{coin.target_currency}</ListOfCoins>
             </Link>
           ))}
         </ListWrapper>
