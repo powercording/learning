@@ -73,7 +73,8 @@ function Coins() {
       const response = await (
         await fetch("https://api.upbit.com/v1/market/all")
       ).json();
-      setCoindata(response.slice(0, 100));
+      setLoading(() => false);
+      setCoindata(() => response.slice(0, 100));
     })();
   }, []);
 
