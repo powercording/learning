@@ -1,32 +1,51 @@
-import axios, { Axios } from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
   display: grid;
-  grid-template: "NameList CoinBox" 1fr / 1fr 10fr;
+  grid-template: "NameList CoinBox" 1fr / 2fr 11fr;
 `;
 const NameWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
   grid-area: NameList;
+  min-width: 200px;
   box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.2);
 `;
-
-const ListWrapper = styled.div`
+const KRWCoins = styled.div`
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 `;
-const ListOfCoins = styled.div`
-  background-color: white;
-`;
-
-const CoinWrapper = styled.div`
+const Coin = styled.div`
   display: flex;
-  height: 100vh;
+  align-items: center;
+  width: 45%;
+  height: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0.5px 0.5px 0.5px 0.5px;
+  transition: background-color 0.2s ease-in;
+  a {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  :hover {
+    background-color: ${(props) => props.theme.focusedColor};
+    color: black;
+  }
+`;
+const CoinWrapper = styled.div`
   grid-area: CoinBox;
 `;
 const Header = styled.h1`
@@ -38,54 +57,47 @@ const CoinName = styled.h2`
   color: ${(props) => props.theme.focusedColor};
   padding-left: 8px;
 `;
-interface IPrice {
-  price: string;
-  qty: string;
-}
-type ICoinData = {
-  quote_currency: string;
-  target_currency: string;
-  timestamp: string;
-  high: string;
-  low: string;
-  first: string;
-  last: string;
-  quote_volume: string;
-  target_volume: string;
-  best_ask: IPrice[];
-  id: string;
+
+type ICoin = {
+  market: string;
+  korean_name: string;
+  english_name: string;
 };
 
 function Coins() {
-  const [coinData, setCoindata] = useState<ICoinData[]>([]);
+  const [coinData, setCoindata] = useState<ICoin[]>([]);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get("https://api.coinone.co.kr/public/v2/ticker_new/KRW", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setLoading(false);
-        setCoindata((preValue) => res.data.tickers.slice(0, 100));
-      })
-      .catch((err) => console.log(err));
+    (async () => {
+      const response = await (
+        await fetch("https://api.upbit.com/v1/market/all")
+      ).json();
+      setCoindata(response.slice(0, 100));
+    })();
   }, []);
 
-  console.log(coinData);
+  const newArray = coinData.filter((item) => {
+    if (item.market.indexOf("KRW") > -1) {
+      return item;
+    }
+  });
 
   return (
     <Container>
       <NameWrapper>
         <Header>{isLoading ? "Loading" : "COIN"}</Header>
         <CoinName>names</CoinName>
-        <ListWrapper>
-          {coinData.map((coin, index) => (
-            <Link key={index} to={`/${coin.target_currency}`}>
-              <ListOfCoins>{coin.target_currency}</ListOfCoins>
-            </Link>
+        <br />
+        <KRWCoins>
+          {newArray.map((eachCoin, index) => (
+            <Coin key={index}>
+              <Link to={`/${eachCoin.market}`}>
+                {eachCoin.english_name.toUpperCase()}
+              </Link>
+            </Coin>
           ))}
-        </ListWrapper>
+        </KRWCoins>
       </NameWrapper>
       <CoinWrapper>
         <Outlet />
