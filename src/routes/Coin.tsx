@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getPriceData } from "./api";
 
 interface ICoinType {
   candle_acc_trade_volume: number;
@@ -17,6 +19,7 @@ interface ICoinType {
 const InfoElements = styled.div`
   width: 15%;
   margin-left: 20px;
+  color: ${(props) => props.theme.focusedColor};
 `;
 const InfoElementsBox = styled.div`
   display: flex;
@@ -34,23 +37,26 @@ const Container = styled.div`
 
 function Coin() {
   const { coinId } = useParams();
-  const [coin, setCoin] = useState<ICoinType[]>();
+  const { isLoading, data } = useQuery<ICoinType[]>("coinPriceData", () =>
+    getPriceData(coinId!)
+  );
 
-  useEffect(() => {
-    (async () => {
-      const singleCoinData = await (
-        await fetch(
-          `https://api.upbit.com/v1/candles/minutes/1?market=${coinId}&count=1`
-        )
-      ).json();
-      setCoin(singleCoinData);
-    })();
-  }, [coinId]);
+  // const [coin, setCoin] = useState<ICoinType[]>();
+  // useEffect(() => {
+  //   (async () => {
+  //     const singleCoinData = await (
+  //       await fetch(
+  //         `https://api.upbit.com/v1/candles/minutes/1?market=${coinId}&count=1`
+  //       )
+  //     ).json();
+  //     setCoin(singleCoinData);
+  //   })();
+  // }, [coinId]);
 
   return (
     <Container>
-      {coin?.map((item, index) => (
-        <InfoElementsBox>
+      {data?.map((item, index) => (
+        <InfoElementsBox key={index}>
           <InfoElements>Coin : {coinId}</InfoElements>
           <InfoElements>💵 현재가: {item.trade_price} 원</InfoElements>
           <InfoElements>〽 시작가 {item.opening_price} 원</InfoElements>

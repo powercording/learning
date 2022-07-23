@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
+import { getUpbitCoins } from "./api";
 
 const Container = styled.div`
   display: grid;
@@ -65,20 +67,11 @@ type ICoin = {
 };
 
 function Coins() {
-  const [coinData, setCoindata] = useState<ICoin[]>([]);
-  const [isLoading, setLoading] = useState(true);
+  const { isLoading, data } = useQuery<ICoin[]>("upbitCoins", getUpbitCoins);
 
-  useEffect(() => {
-    (async () => {
-      const response = await (
-        await fetch("https://api.upbit.com/v1/market/all")
-      ).json();
-      setLoading(() => false);
-      setCoindata(() => response.slice(0, 100));
-    })();
-  }, []);
+  const coinData = data?.slice(0, 100);
 
-  const newArray = coinData.filter((item) => {
+  const newArray = coinData?.filter((item) => {
     if (item.market.indexOf("KRW") > -1) {
       return item;
     }
@@ -87,11 +80,11 @@ function Coins() {
   return (
     <Container>
       <NameWrapper>
-        <Header>{isLoading ? "Loading" : "COIN"}</Header>
-        <CoinName>names</CoinName>
+        <Header>{isLoading ? "Loading" : <Link to={"/"}>COIN</Link>}</Header>
+        <CoinName>name here</CoinName>
         <br />
         <KRWCoins>
-          {newArray.map((eachCoin, index) => (
+          {newArray?.map((eachCoin, index) => (
             <Coin key={index}>
               <Link to={`/${eachCoin.market}`}>
                 {eachCoin.english_name.toUpperCase()}
@@ -102,8 +95,10 @@ function Coins() {
       </NameWrapper>
       <CoinWrapper>
         <Outlet />
+        <h1>Testing if this text to be seen....</h1>
       </CoinWrapper>
     </Container>
   );
 }
+
 export default Coins;
