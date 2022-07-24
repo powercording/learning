@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPriceData } from "./api";
+import ChartMinutes from "./ChartMinutes";
 
-interface ICoinType {
+type ICoinType = {
   candle_acc_trade_volume: number;
   candle_date_time_kst: string;
   candle_date_time_utc: string;
@@ -15,7 +15,7 @@ interface ICoinType {
   timestamp: number;
   trade_price: number;
   unit: number;
-}
+};
 const InfoElements = styled.div`
   width: 15%;
   margin-left: 20px;
@@ -37,8 +37,9 @@ const Container = styled.div`
 
 function Coin() {
   const { coinId } = useParams();
-  const { isLoading, data } = useQuery<ICoinType[]>("coinPriceData", () =>
-    getPriceData(coinId!)
+  const { isLoading, data } = useQuery<ICoinType[]>(
+    ["coinPriceData", coinId],
+    () => getPriceData(coinId!)
   );
 
   // const [coin, setCoin] = useState<ICoinType[]>();
@@ -64,6 +65,7 @@ function Coin() {
           <InfoElements>⬇ 오늘 최저가 {item.low_price} 원</InfoElements>
         </InfoElementsBox>
       ))}
+      <ChartMinutes coinId={coinId!} />
     </Container>
   );
 }

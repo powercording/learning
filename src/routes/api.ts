@@ -8,3 +8,9 @@ export function getPriceData(coinId: string) {
     (response) => response.json()
   );
 }
+
+export function getMinutesData(coinId: string) {
+  return fetch(`${URL}/candles/minutes/1?market=${coinId}&count=30`).then(
+    (response) => response.json()
+  );
+}
