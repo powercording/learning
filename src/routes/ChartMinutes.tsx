@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { getMinutesData } from "./api";
 import ApexChart from "react-apexcharts";
+import styled from "styled-components";
 
 type ICoinType = {
   candle_acc_trade_volume: number;
@@ -19,7 +20,10 @@ type ChartProps = {
   coinId: string;
 };
 
-/**declaration param is first i have to do, second is sending param from parent components to here. : like this functions's coinId */
+const ChartContainer = styled.div`
+  height: 200px;
+`;
+/**declaration param is first i have to do, second is sending param from parent components to here. : like this functions's >coinId< */
 function ChartMinutes({ coinId }: ChartProps) {
   const { isLoading, data: minutesPriceCandle } = useQuery<ICoinType[]>(
     ["coinMinutesPriceData", coinId],
@@ -30,38 +34,29 @@ function ChartMinutes({ coinId }: ChartProps) {
    show screen depending how our current state is**************************/
   return (
     <div>
-      {isLoading ? (
-        "now Loading...."
-      ) : (
-        <ApexChart
-          type="candlestick"
-          series={[
-            {
-              data: [
-                {
-                  x: "45",
-                  y: [54, 123, 54, 3],
-                },
-                {
-                  x: "46",
-                  y: [66, 95, 52, 15],
-                },
-                {
-                  x: "47",
-                  y: [991, 323, 44, 15],
-                },
+      <ApexChart
+        type="candlestick"
+        series={[
+          {
+            name: "price",
+            data: minutesPriceCandle!?.map((coin) => ({
+              x: coin.candle_date_time_kst,
+              y: [
+                coin.opening_price,
+                coin.high_price,
+                coin.low_price,
+                coin.trade_price,
               ],
-            },
-          ]}
-          options={{
-            chart: {
-              type: "candlestick",
-              height: 300,
-              width: 200,
-            },
-          }}
-        />
-      )}
+            })),
+          },
+        ]}
+        options={{
+          chart: {
+            height: 75,
+            width: 75,
+          },
+        }}
+      />
     </div>
   );
 }
