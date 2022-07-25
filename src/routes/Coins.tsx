@@ -30,7 +30,7 @@ const Coin = styled.div`
   height: 50px;
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 5px;
-  color: white;
+  color: ${(props) => props.theme.textColor};
   background-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0.5px 0.5px 0.5px 0.5px;
   transition: background-color 0.2s ease-in;
@@ -58,14 +58,17 @@ const CoinName = styled.h2`
   color: ${(props) => props.theme.focusedColor};
   padding-left: 8px;
 `;
-
+interface IRouter {
+  toggle: () => void;
+  isdark: boolean;
+}
 type ICoin = {
   market: string;
   korean_name: string;
   english_name: string;
 };
 
-function Coins() {
+function Coins({ toggle, isdark }: IRouter) {
   const { isLoading, data } = useQuery<ICoin[]>("upbitCoins", getUpbitCoins);
 
   const coinData = data?.slice(0, 100);
@@ -80,6 +83,7 @@ function Coins() {
     <Container>
       <NameWrapper>
         <Header>{isLoading ? "Loading" : <Link to={"/"}>COIN</Link>}</Header>
+        <button onClick={toggle}>{isdark ? "Light on!" : "Light off!"}</button>
         <CoinName>name here</CoinName>
         <br />
         <KRWCoins>

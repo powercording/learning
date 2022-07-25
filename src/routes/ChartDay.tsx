@@ -26,7 +26,7 @@ const ChartContainer = styled.div`
 `;
 
 function ChartDay({ coinId }: ChartProps) {
-  const { isLoading, data: dyaPrice } = useQuery<ICoinType[]>(
+  const { isLoading, data: dayPrice } = useQuery<ICoinType[]>(
     ["coinDayPrice", coinId],
     () => getDaysData(coinId),
     {
@@ -40,7 +40,7 @@ function ChartDay({ coinId }: ChartProps) {
         series={[
           {
             name: "price",
-            data: dyaPrice!?.map((coin) => ({
+            data: dayPrice!?.map((coin) => ({
               x: coin.candle_date_time_kst,
               y: [
                 coin.opening_price,
@@ -52,6 +52,9 @@ function ChartDay({ coinId }: ChartProps) {
           },
         ]}
         options={{
+          theme: {
+            mode: "dark",
+          },
           yaxis: {
             labels: {
               style: {

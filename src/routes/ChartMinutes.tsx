@@ -55,10 +55,10 @@ function ChartMinutes({ coinId }: ChartProps) {
           },
         ]}
         options={{
-          tooltip: {
-            enabled: true,
-            theme: "light",
+          theme: {
+            mode: "dark",
           },
+
           yaxis: {
             labels: {
               style: {
