@@ -2,7 +2,9 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPriceData } from "./api";
+import ChartDay from "./ChartDay";
 import ChartMinutes from "./ChartMinutes";
+import { Helmet } from "react-helmet";
 
 type ICoinType = {
   candle_acc_trade_volume: number;
@@ -42,20 +44,11 @@ function Coin() {
     () => getPriceData(coinId!)
   );
 
-  // const [coin, setCoin] = useState<ICoinType[]>();
-  // useEffect(() => {
-  //   (async () => {
-  //     const singleCoinData = await (
-  //       await fetch(
-  //         `https://api.upbit.com/v1/candles/minutes/1?market=${coinId}&count=1`
-  //       )
-  //     ).json();
-  //     setCoin(singleCoinData);
-  //   })();
-  // }, [coinId]);
-
   return (
     <Container>
+      <Helmet>
+        <title>{coinId}</title>
+      </Helmet>
       {data?.map((item, index) => (
         <InfoElementsBox key={index}>
           <InfoElements>Coin : {coinId}</InfoElements>
@@ -66,6 +59,7 @@ function Coin() {
         </InfoElementsBox>
       ))}
       <ChartMinutes coinId={coinId!} />
+      <ChartDay coinId={coinId!} />
     </Container>
   );
 }

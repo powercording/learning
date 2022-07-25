@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
@@ -94,8 +93,7 @@ function Coins() {
         </KRWCoins>
       </NameWrapper>
       <CoinWrapper>
-        <Outlet />
-        <h1>Testing if this text to be seen....</h1>
+        {isLoading ? <h1>Testing if this text to be seen....</h1> : <Outlet />}
       </CoinWrapper>
     </Container>
   );

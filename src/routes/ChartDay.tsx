@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
-import { getMinutesData } from "./api";
-import ApexChart from "react-apexcharts";
 import styled from "styled-components";
+import { getDaysData } from "./api";
+import ApexChart from "react-apexcharts";
 
 type ICoinType = {
   candle_acc_trade_volume: number;
@@ -24,18 +24,15 @@ const ChartContainer = styled.div`
   width: 40%;
   margin: 20px;
 `;
-/**declaration param is first i have to do, second is sending param from parent components to here. : like this functions's >coinId< */
-function ChartMinutes({ coinId }: ChartProps) {
-  const { isLoading, data: minutesPriceCandle } = useQuery<ICoinType[]>(
-    ["coinMinutesPriceData", coinId],
-    () => getMinutesData(coinId),
+
+function ChartDay({ coinId }: ChartProps) {
+  const { isLoading, data: dyaPrice } = useQuery<ICoinType[]>(
+    ["coinDayPrice", coinId],
+    () => getDaysData(coinId),
     {
       refetchInterval: 10000,
     }
   );
-
-  /***************************
-   show screen depending how our current state is**************************/
   return (
     <ChartContainer>
       <ApexChart
@@ -43,7 +40,7 @@ function ChartMinutes({ coinId }: ChartProps) {
         series={[
           {
             name: "price",
-            data: minutesPriceCandle!?.map((coin) => ({
+            data: dyaPrice!?.map((coin) => ({
               x: coin.candle_date_time_kst,
               y: [
                 coin.opening_price,
@@ -55,18 +52,11 @@ function ChartMinutes({ coinId }: ChartProps) {
           },
         ]}
         options={{
-          tooltip: {
-            enabled: true,
-            theme: "light",
-          },
           yaxis: {
             labels: {
               style: {
                 colors: "#fff",
               },
-            },
-            axisTicks: {
-              color: "#111",
             },
           },
           xaxis: {
@@ -96,4 +86,5 @@ function ChartMinutes({ coinId }: ChartProps) {
     </ChartContainer>
   );
 }
-export default ChartMinutes;
+
+export default ChartDay;
