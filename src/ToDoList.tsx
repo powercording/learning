@@ -51,20 +51,39 @@ import {
 // }
 
 function ToDoList() {
-  const { register, watch } = useForm();
-
-  console.log(watch());
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
 
   return (
     <>
       <Container className="bg-light border" fluid="lg">
-        <Row xl="2">
-          <Form inline>
-            <FormGroup floating>
-              <Input
-                {...register("toDo")}
-                placeholder="Write a To do..."
+        <Row xl="3">
+          <Form inline className="mx-auto" onSubmit={handleSubmit(onSubmit)}>
+            <FormGroup className="d-flex flex-column">
+              <input
                 type="text"
+                {...register("firstName", {
+                  required: "공란입니다",
+                })}
+                placeholder="FirstName"
+              />
+              <input
+                type="text"
+                {...register("lastName")}
+                placeholder="LastName"
+              />
+              <input type="text" {...register("email")} placeholder="E-mail" />
+              <input
+                type="text"
+                {...register("password")}
+                placeholder="Password"
+              />
+              <input
+                type="text"
+                {...register("CheckingPassword")}
+                placeholder="Password Checking"
               />
             </FormGroup>
             <Button>Add!</Button>

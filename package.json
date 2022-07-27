@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@types/reactstrap": "^8.7.2",
     "@types/styled-components": "^5.1.25"
   }
 }
