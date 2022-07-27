@@ -1,57 +1,13 @@
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  Button,
-  Container,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Row,
-} from "reactstrap";
-
-// function ToDoList() {
-//   const [todo, setTodo] = useState("");
-
-//   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
-//     const {
-//       currentTarget: { value },
-//     } = event;
-//     setTodo(value);
-//   };
-
-//   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-//     event.preventDefault();
-//     console.log(todo);
-//   };
-//   console.log(todo);
-//   return (
-//     <>
-//       <Container className="bg-light border" fluid="lg">
-//         <Row xl="2">
-//           <Form inline onSubmit={onSubmit}>
-//             <FormGroup floating>
-//               <Input
-//                 value={todo}
-//                 bsSize="sm"
-//                 className="mb-3"
-//                 id="exampleEmail"
-//                 name="email"
-//                 placeholder="Write a To do..."
-//                 onChange={onChange}
-//               />
-//               <Label for="exampleEmail">Email</Label>
-//             </FormGroup>
-//             <Button>Add!</Button>
-//           </Form>
-//         </Row>
-//       </Container>
-//     </>
-//   );
-// }
+import { Button, Container, Form, FormGroup, Row } from "reactstrap";
+import Message from "./components/Message";
 
 function ToDoList() {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const onSubmit = (data: any) => {
     console.log(data);
   };
@@ -65,24 +21,41 @@ function ToDoList() {
               <input
                 type="text"
                 {...register("firstName", {
-                  required: "공란입니다",
+                  required: "빈칸을 채워주세요",
+                  minLength: 3,
                 })}
                 placeholder="FirstName"
               />
               <input
                 type="text"
-                {...register("lastName")}
+                {...register("lastName", {
+                  required: "빈칸을 채워주세요",
+                  minLength: 3,
+                })}
                 placeholder="LastName"
               />
-              <input type="text" {...register("email")} placeholder="E-mail" />
               <input
                 type="text"
-                {...register("password")}
+                {...register("email", {
+                  required: "빈칸을 채워주세요",
+                  minLength: 3,
+                })}
+                placeholder="E-mail"
+              />
+              <input
+                type="text"
+                {...register("password", {
+                  required: "빈칸을 채워주세요",
+                  minLength: 3,
+                })}
                 placeholder="Password"
               />
               <input
                 type="text"
-                {...register("CheckingPassword")}
+                {...register("CheckingPassword", {
+                  required: "빈칸을 채워주세요",
+                  minLength: 3,
+                })}
                 placeholder="Password Checking"
               />
             </FormGroup>
@@ -90,6 +63,7 @@ function ToDoList() {
           </Form>
         </Row>
       </Container>
+      <Message>{errors?.email?.message}</Message>
     </>
   );
 }
