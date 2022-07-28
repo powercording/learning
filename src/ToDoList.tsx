@@ -1,14 +1,26 @@
 import { useForm } from "react-hook-form";
 import { Button, Container, Form, FormGroup, Row } from "reactstrap";
 import Message from "./components/Message";
+type IFormData = {
+  errors: {
+    email: {
+      message: string;
+    };
+  };
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  CheckingPassword: string;
+};
 
 function ToDoList() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const onSubmit = (data: any) => {
+  } = useForm<IFormData>();
+  const onSubmit = (data: IFormData) => {
     console.log(data);
   };
 
@@ -58,12 +70,12 @@ function ToDoList() {
                 })}
                 placeholder="Password Checking"
               />
+              <span>{errors?.email?.message}</span>
             </FormGroup>
             <Button>Add!</Button>
           </Form>
         </Row>
       </Container>
-      <Message>{errors?.email?.message}</Message>
     </>
   );
 }

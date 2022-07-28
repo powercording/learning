@@ -1,24 +1,12 @@
-import React, { ReactNode, useState } from "react";
-type PropsWithChildren<P> = P & { children?: ReactNode };
-type Imsg = {
-  error: {
-    message: string;
-  };
-};
-
+import { useRef } from "react";
 import { Alert, Container, Row } from "reactstrap";
 
-function Message() {
+function Message({ message }: any) {
+  const alertRef = useRef(null);
   return (
     <Container>
       <Row md="2">
-        <Alert
-          color="danger"
-          className="mx-auto"
-          dismiss={function noRefCheck() {}}
-        >
-          {message.error.message}
-        </Alert>
+        <Alert className="mx-auto">{message}</Alert>
       </Row>
     </Container>
   );
