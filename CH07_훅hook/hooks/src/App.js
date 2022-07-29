@@ -1,10 +1,11 @@
 import "bootstrap/dist/css/bootstrap.css";
-import UseState03 from "./hooks/UseState03";
+
+import UseReducer03 from "./hooks/UseReducer03";
 
 function App() {
   return (
     <div className="App">
-      <UseState03 />
+      <UseReducer03 />
     </div>
   );
 }
