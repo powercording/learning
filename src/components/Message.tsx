@@ -1,14 +1,11 @@
-import React, { ReactNode, useState } from "react";
-type PropsWithChildren<P> = P & { children?: ReactNode };
-type Imsg = {
-  error: {
-    message: string;
-  };
-};
+import React, { Children, ReactNode, useState } from "react";
+
+
 
 import { Alert, Container, Row } from "reactstrap";
 
 function Message() {
+  const {Children}  = props
   return (
     <Container>
       <Row md="2">
@@ -17,7 +14,7 @@ function Message() {
           className="mx-auto"
           dismiss={function noRefCheck() {}}
         >
-          {message.error.message}
+          {Children}
         </Alert>
       </Row>
     </Container>
