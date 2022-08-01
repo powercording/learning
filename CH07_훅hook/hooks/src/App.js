@@ -1,11 +1,11 @@
 import "bootstrap/dist/css/bootstrap.css";
-
-import UseReducer03 from "./hooks/UseReducer03";
+import Parent from "./hooks/Parent";
+import Home from "./hooks/Home";
 
 function App() {
   return (
     <div className="App">
-      <UseReducer03 />
+      <Home />
     </div>
   );
 }
