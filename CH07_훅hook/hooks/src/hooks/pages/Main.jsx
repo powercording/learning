@@ -4,7 +4,7 @@ import Slider from "../ui/Slider";
 function Main() {
   return (
     <div>
-      <Slider></Slider>
+      <Slider></Slider> 
     </div>
   );
 }
