@@ -1,11 +1,10 @@
 import "bootstrap/dist/css/bootstrap.css";
-import Parent from "./hooks/Parent";
-import Home from "./hooks/Home";
+import MainPage from "./RESTAPI/MainPage";
 
 function App() {
   return (
     <div className="App">
-      <Home />
+      <MainPage />
     </div>
   );
 }
