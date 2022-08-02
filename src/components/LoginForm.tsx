@@ -1,5 +1,9 @@
+import axios from "axios";
+import Cookies from "js-cookie";
+import { FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,13 +40,43 @@ const H1 = styled.h1`
 `;
 
 function LoginForm() {
+  const ADDRESS = "http://localhost:8080/";
+  const [isLogin, setLogin] = useState(false);
+  const [loginId, setLoginId] = useState("");
+  const [password, setPassword] = useState("");
+
+  const tryLogin = (event: FormEvent) => {
+    event.preventDefault();
+    axios
+      .post(ADDRESS + "user/authenticate", {
+        loginId: loginId,
+        password: password,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          Cookies.set("loginId", response.data.loginId);
+          Cookies.set("isLogin", "true");
+          setLogin(true);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <Container>
-      <FormContainer>
-        <IdInput placeholder="ID"></IdInput>
-        <IdInput placeholder="PW"></IdInput>
+      <FormContainer method="POST">
+        <IdInput
+          placeholder="ID"
+          value={loginId}
+          onChange={(event) => setLoginId(event.target.value)}
+        ></IdInput>
+        <IdInput
+          placeholder="PW"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        ></IdInput>
         <Span>
-          <Link to={`/user`}>login</Link>
+          <button onClick={tryLogin}>로그인</button>
         </Span>
       </FormContainer>
       <FormContainer>
