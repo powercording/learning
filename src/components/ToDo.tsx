@@ -1,8 +1,19 @@
+import React from "react";
 import { useSetRecoilState } from "recoil";
 import { Categories, ITodo, toDoState } from "./atoms";
 
 function ToDo({ list, category, id }: ITodo) {
   const setTodos = useSetRecoilState(toDoState);
+  const handleDelete = () => {
+    setTodos((prev) => {
+      const targetLocation = prev.findIndex((item) => {
+        return item.id === id;
+      });
+      const newTodos = [...prev];
+      const deletedToDo = newTodos.splice(targetLocation, 1);
+      return [...newTodos];
+    });
+  };
 
   const onClick = (newCategory: ITodo["category"]) => {
     setTodos((prev) => {
@@ -41,9 +52,12 @@ function ToDo({ list, category, id }: ITodo) {
           className="btn btn-info"
           onClick={() => onClick(Categories.DONE)}
         >
-          {Categories.DONE }
+          {Categories.DONE}
         </button>
       )}
+      <button onClick={handleDelete} className={"btn btn-danger"}>
+        삭제하기
+      </button>
     </li>
   );
 }
