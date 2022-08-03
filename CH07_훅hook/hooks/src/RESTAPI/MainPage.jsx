@@ -1,28 +1,17 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
-import { Navigate } from "react-router-dom";
+import styled from "styled-components";
 
-const disappear = keyframes`
-from {
-  transform : display(none)
-}
-to {}
+const SmartButton = styled.button`
+  color: ${(props) => (props.dark ? "white" : "dark")};
+  background-color: ${(props) => (props.dark ? "black" : "white")};
+  border: 1px solid crimson;
+  padding: 3px;
 `;
-
-const Mybutton = styled.div`
-  padding: 20px;
-  background-color: aliceblue;
-  border-radius: 60%;
-`;
-const redirect = () => {
-  return <Navigate to="/"></Navigate>;
-};
 
 function MainPage() {
   return (
     <>
-      <Mybutton>MainPage</Mybutton>;
-      <button onClick={redirect}>리다이랙트</button>
+      <SmartButton>MainPage</SmartButton>
     </>
   );
 }
