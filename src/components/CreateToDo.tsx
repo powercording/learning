@@ -30,6 +30,7 @@ function CreateToDo() {
               })}
               placeholder="Write a to do"
               className="form-control"
+              draggable="true"
             />
           </FormGroup>
           <Button>Add!</Button>
