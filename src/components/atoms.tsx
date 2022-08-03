@@ -29,3 +29,8 @@ export const toDoSelector = selector({
     return pulledState.filter((item) => item.category === pulledCate);
   },
 });
+
+export const dragDropState = atom({
+  key: "dragDrop",
+  default: ["a", "b", "c", "d", "e", "f", "g", "h"],
+});

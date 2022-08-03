@@ -10,7 +10,7 @@ function ToDo({ list, category, id }: ITodo) {
         return item.id === id;
       });
       const newTodos = [...prev];
-      const deletedToDo = newTodos.splice(targetLocation, 1);
+      newTodos.splice(targetLocation, 1);
       return [...newTodos];
     });
   };
