@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.css";
-import ListContainer from "./RESTAPI/ListContainer";
+import Company from "./RESTAPI/Company";
 
 /**
  * JS 에서 비동기 HTTP 통신
@@ -17,7 +17,7 @@ import ListContainer from "./RESTAPI/ListContainer";
 function App() {
   return (
     <div className="App">
-      <ListContainer />
+      <Company />
     </div>
   );
 }
