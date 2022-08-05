@@ -29,7 +29,7 @@ export const toDoSelector = selector({
     return pulledState.filter((item) => item.category === pulledCate);
   },
 });
-interface IDndState {
+export interface IDndState {
   [key: string]: string[];
 }
 
