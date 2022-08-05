@@ -26,6 +26,7 @@ public class TodoEntity {
     @GenericGenerator(name = "uuid2", strategy = "uuid2") // 전략뭔데
     private String id;
 
+    // 원래 @column("name" = userId) 이 붙어야 하지만 @Table 이 있기 때문에 생략 할 수 있다.
     private String userId;
     private String title;
     private boolean done;

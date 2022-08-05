@@ -26,7 +26,7 @@ public class TodoDTO {
     }
 
     //시리얼라이즈 함수 사용
-    public static TodoEntity todoEntity(final TodoDTO dto) {
+    public static TodoEntity toEntity(final TodoDTO dto) {
         return TodoEntity.builder()
                 .id(dto.getId())
                 .title(dto.getTitle())
