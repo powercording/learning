@@ -30,14 +30,18 @@ export const toDoSelector = selector({
   },
 });
 export interface IDndState {
-  [key: string]: string[];
+  [key: string]: ITodo[];
+}
+export interface ITodo {
+  id: number;
+  text: string;
 }
 
 export const dragDropState = atom<IDndState>({
   key: "dragDrop",
   default: {
-    to_do: ["a", "b"],
-    doing: ["c", "d", "e"],
-    done: ["f", "g", "h"],
+    to_do: [],
+    doing: [],
+    done: [],
   },
 });

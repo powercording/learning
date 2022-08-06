@@ -1,38 +1,67 @@
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import { Droppable } from "react-beautiful-dnd";
 import React from "react";
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
-import { dragDropState } from "./atoms";
 import DraggableItem from "./DraggableItem";
+import TodoInput from "./TodoInput";
+import { ITodo } from "./atoms";
 
 const Board = styled.div`
-  background-color: #ccc;
+  background-color: #f7f1e3;
   padding: 20px 10px;
   border-radius: 8px;
   min-height: 400px;
+  display: flex;
+  flex-direction: column;
 `;
 const Title = styled.h2`
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   color: black;
 `;
 interface IDropAreaProps {
-  dragList: string[];
+  dragList: ITodo[];
   boardId: string;
 }
+
+interface IAreaProps {
+  draggingFromThisWith: boolean;
+  isDraggingOver: boolean;
+}
+const Area = styled.div<IAreaProps>`
+  background-color: ${(props) =>
+    props.isDraggingOver
+      ? "#fff788dc"
+      : props.draggingFromThisWith
+      ? "#584e3270"
+      : "#f7f1e3"};
+  border-radius: 5px;
+  flex-grow: 1;
+  transition: background-color 0.3s ease-in-out;
+`;
 
 function DropArea({ dragList, boardId }: IDropAreaProps) {
   return (
     <Board>
       <Title>{boardId.toLocaleUpperCase()}</Title>
+      <TodoInput />
       <Droppable droppableId={boardId}>
-        {(magic) => (
-          <div ref={magic.innerRef} {...magic.droppableProps}>
+        {(magic, snapshot) => (
+          <Area
+            isDraggingOver={snapshot.isDraggingOver}
+            draggingFromThisWith={Boolean(snapshot.draggingFromThisWith)}
+            ref={magic.innerRef}
+            {...magic.droppableProps}
+          >
             {dragList.map((list, idx) => (
-              <DraggableItem key={list} list={list} idx={idx} />
+              <DraggableItem
+                key={list.id}
+                list={list.list}
+                idx={idx}
+                toDoId={list.id}
+              />
             ))}
             {magic.placeholder}
-          </div>
+          </Area>
         )}
       </Droppable>
     </Board>
