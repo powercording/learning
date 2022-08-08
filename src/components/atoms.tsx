@@ -29,15 +29,19 @@ export const toDoSelector = selector({
     return pulledState.filter((item) => item.category === pulledCate);
   },
 });
-interface IDndState {
-  [key: string]: string[];
+export interface IDndState {
+  [key: string]: ITodo[];
+}
+export interface ITodo {
+  id: number;
+  text: string;
 }
 
 export const dragDropState = atom<IDndState>({
   key: "dragDrop",
   default: {
-    to_do: ["a", "b"],
-    doing: ["c", "d", "e"],
-    done: ["f", "g", "h"],
+    to_do: [],
+    doing: [],
+    done: [],
   },
 });

@@ -2,7 +2,7 @@ import React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { dragDropState } from "./components/atoms";
+import { dragDropState, IDndState } from "./components/atoms";
 import DropArea from "./components/DropArea";
 
 const Wrapper = styled.div`
@@ -26,30 +26,41 @@ function DnDContext() {
   const onDragEnd = ({ destination, source, draggableId }: DropResult) => {
     if (!destination) return;
     setDragList((prevValue) => {
-      if (destination?.droppableId === source.droppableId) {
-        const fromValue = [...prevValue[source.droppableId]];
-        fromValue.splice(source.index, 1);
-        fromValue.splice(destination.index, 0, draggableId);
+      // const toValue = JSON.parse(JSON.stringify(prevValue));
+      // toValue[source.droppableId].splice(source.index, 1);
+      // toValue[destination.droppableId].splice(
+      //   destination.index,
+      //   0,
+      //   draggableId
+      // );
 
-        return {
-          ...prevValue,
-          [source.droppableId]: fromValue,
-        };
-      }
+      // const fromValue: IDndState = {};
+      // Object.keys(prevValue).map((catego) => {
+      //   fromValue[catego] = [...prevValue[catego]];
+      // });
+      // fromValue[source.droppableId].splice(source.index, 1);
+      // fromValue[destination.droppableId].splice(
+      //   destination.index,
+      //   0,
+      //   draggableId
+      // );
 
-      if (destination?.droppableId != source.droppableId) {
-        const fromValue = [...prevValue[source.droppableId]];
-        fromValue.splice(source.index, 1);
+      const targetObject = {
+        [source.droppableId]: [...prevValue[source.droppableId]],
+        [destination.droppableId]: [...prevValue[destination.droppableId]],
+      };
 
-        const toValue = [...prevValue[destination.droppableId]];
-        toValue.splice(destination?.index, 0, draggableId);
+      targetObject[source.droppableId].splice(source.index, 1);
+      targetObject[destination.droppableId].splice(
+        destination.index,
+        0,
+        draggableId
+      );
 
-        return {
-          ...prevValue,
-          [source.droppableId]: fromValue,
-          [destination.droppableId]: toValue,
-        };
-      } else return prevValue;
+      return {
+        ...prevValue,
+        ...targetObject,
+      };
     });
   };
   return (
