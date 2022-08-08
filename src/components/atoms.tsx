@@ -40,14 +40,8 @@ export interface ITodoTwo {
 export const dragDropState = atom<IDndState>({
   key: "dragDrop",
   default: {
-    to_do: [
-      { id: 3, text: "hello" },
-      { id: 4, text: "myname is" },
-    ],
-    doing: [
-      { id: 5, text: "no hello" },
-      { id: 6, text: "bye" },
-    ],
+    to_do: [],
+    doing: [],
     done: [],
   },
 });

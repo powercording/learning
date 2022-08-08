@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { dragDropState } from "./atoms";
 
 const Btn = styled.button`
   width: 100%;
@@ -20,15 +22,25 @@ const In = styled.input`
 interface IinputForm {
   toDo: string;
 }
+interface Prop {
+  boardId: string;
+}
 
-function TodoInput() {
+function TodoInput({ boardId }: Prop) {
+  const setState = useSetRecoilState(dragDropState);
   const { register, setValue, handleSubmit } = useForm<IinputForm>();
 
-  // const onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-  //   console.log(inputRef.current?.value);
-  // };
-  const onSubmit = (data: IinputForm) => {
-    console.log(data);
+  const onSubmit = ({ toDo }: IinputForm) => {
+    const newTodo = {
+      id: Date.now(),
+      text: toDo,
+    };
+    setState((prev) => {
+      return {
+        ...prev,
+        [boardId]: [...prev[boardId], newTodo],
+      };
+    });
     setValue("toDo", "");
   };
 

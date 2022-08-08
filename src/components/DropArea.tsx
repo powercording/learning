@@ -1,7 +1,6 @@
 import { Droppable } from "react-beautiful-dnd";
 import React from "react";
 import styled from "styled-components";
-
 import DraggableItem from "./DraggableItem";
 import TodoInput from "./TodoInput";
 import { ITodoTwo } from "./atoms";
@@ -44,7 +43,7 @@ function DropArea({ dragList, boardId }: IDropAreaProps) {
   return (
     <Board>
       <Title>{boardId.toLocaleUpperCase()}</Title>
-      <TodoInput />
+      <TodoInput boardId={boardId} />
       <Droppable droppableId={boardId}>
         {(magic, snapshot) => (
           <Area
