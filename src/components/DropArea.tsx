@@ -1,8 +1,7 @@
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import { Droppable } from "react-beautiful-dnd";
 import React from "react";
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
-import { dragDropState } from "./atoms";
+
 import DraggableItem from "./DraggableItem";
 
 const Board = styled.div`
