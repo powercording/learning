@@ -20,7 +20,6 @@ interface IDraggableProps {
 }
 
 function DraggableItem({ list, idx, toDoId }: IDraggableProps) {
-  console.log("앙?");
   return (
     <Draggable key={list} draggableId={toDoId + ""} index={idx}>
       {(magic, snapshot) => (

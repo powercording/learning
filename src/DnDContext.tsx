@@ -23,7 +23,8 @@ const Boards = styled.div`
 function DnDContext() {
   const [dragList, setDragList] = useRecoilState(dragDropState);
 
-  const onDragEnd = ({ destination, source, draggableId }: DropResult) => {
+  const onDragEnd = (info: DropResult) => {
+    const { destination, source, draggableId } = info;
     if (!destination) return;
     setDragList((prevValue) => {
       // const toValue = JSON.parse(JSON.stringify(prevValue));
@@ -34,40 +35,34 @@ function DnDContext() {
       //   draggableId
       // );
 
-      // const fromValue: IDndState = {};
-      // Object.keys(prevValue).map((catego) => {
-      //   fromValue[catego] = [...prevValue[catego]];
-      // });
-      // fromValue[source.droppableId].splice(source.index, 1);
-      // fromValue[destination.droppableId].splice(
-      //   destination.index,
-      //   0,
-      //   draggableId
-      // );
-
       const targetObject = {
         [source.droppableId]: [...prevValue[source.droppableId]],
         [destination.droppableId]: [...prevValue[destination.droppableId]],
       };
 
-      targetObject[source.droppableId].splice(source.index, 1);
-      targetObject[destination.droppableId].splice(
-        destination.index,
-        0,
-        draggableId
-      );
+      const target = [...targetObject[source.droppableId]][source.index];
+      const targetArray = targetObject[source.droppableId];
+      const destinationArray = targetObject[destination.droppableId];
+
+      targetArray.splice(source.index, 1);
+      console.log(targetArray);
+
+      destinationArray.splice(destination?.index, 0, target);
+      console.log(destinationArray);
 
       return {
         ...prevValue,
-        ...targetObject,
+        [source.droppableId]: [...targetArray],
+        [destination.droppableId]: [...destinationArray],
       };
     });
   };
+
   return (
     <Wrapper>
       <DragDropContext onDragEnd={onDragEnd}>
         <Boards>
-          {Object.keys(dragList).map((boardId) => (
+          {Object.keys(dragList).map((boardId, idx) => (
             <DropArea
               key={boardId}
               boardId={boardId}

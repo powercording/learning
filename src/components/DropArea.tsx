@@ -1,11 +1,10 @@
 import { Droppable } from "react-beautiful-dnd";
 import React from "react";
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
-import { dragDropState } from "./atoms";
+
 import DraggableItem from "./DraggableItem";
 import TodoInput from "./TodoInput";
-import { ITodo } from "./atoms";
+import { ITodoTwo } from "./atoms";
 
 const Board = styled.div`
   background-color: #f7f1e3;
@@ -21,7 +20,7 @@ const Title = styled.h2`
   color: black;
 `;
 interface IDropAreaProps {
-  dragList: ITodo[];
+  dragList: ITodoTwo[];
   boardId: string;
 }
 
@@ -54,10 +53,10 @@ function DropArea({ dragList, boardId }: IDropAreaProps) {
             ref={magic.innerRef}
             {...magic.droppableProps}
           >
-            {dragList.map((list, idx) => (
+            {dragList?.map((list, idx) => (
               <DraggableItem
                 key={list.id}
-                list={list.list}
+                list={list.text}
                 idx={idx}
                 toDoId={list.id}
               />
