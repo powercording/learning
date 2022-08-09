@@ -14,7 +14,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         //맵핑 주소 설정.
         registry.addMapping("/**")
                 //허용할 포트번호 설정
-                .allowedOrigins("http://localhost:3000")
+                .allowedOrigins("http://localhost:3000", "http://192.168.0.4:3000")
                 //허용할 HTTP 메소드 설정
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 //허용할 HTTP 헤더

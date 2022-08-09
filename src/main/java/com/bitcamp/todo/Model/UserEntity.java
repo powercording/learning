@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-
 import javax.persistence.*;
 
 @Builder
@@ -14,18 +13,19 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name="user" , uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
+@Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
 public class UserEntity {
 
     @Id
     @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2" , strategy = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String id;
 
     @Column(nullable = false)
-    private String userName;
-    private String passowrd;
+    private String username;
+    private String password;
     private String role;
     private String authProvider;
+    
 
 }
