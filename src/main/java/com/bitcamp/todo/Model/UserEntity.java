@@ -23,8 +23,9 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String username;
-    private String passowrd;
+    private String password;
     private String role;
     private String authProvider;
+    
 
 }

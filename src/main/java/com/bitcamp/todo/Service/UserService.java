@@ -4,6 +4,7 @@ import com.bitcamp.todo.Model.UserEntity;
 import com.bitcamp.todo.persistence.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -29,10 +30,14 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
-//    //아이디와 비밀번호 일치하는지 확인
-//    public UserEntity getByCredentials(final String username, final String password) {
-//        final UserEntity originalUser = userRepository.findByUsername(username);
-//
-//        //matches
-//    }
+    //아이디와 비밀번호 일치하는지 확인
+    public UserEntity getByCredentials(final String username, final String password, final PasswordEncoder encoder) {
+        final UserEntity originalUser = userRepository.findByUsername(username);
+
+        //matches 매서드를 이용해 패스워드가 같은지 확인
+        if (originalUser != null && encoder.matches(password, originalUser.getPassword())) {
+            return originalUser;
+        }
+        return null;
+    }
 }
