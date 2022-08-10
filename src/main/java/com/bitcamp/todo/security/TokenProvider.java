@@ -50,6 +50,8 @@ public class TokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+        System.out.println("TokenProvider 클레임즈 : " + claims);
+        System.out.println("TokenProvider 토큰 : " + token);
 
         return claims.getSubject();
     }
