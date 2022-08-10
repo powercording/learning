@@ -20,7 +20,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        System.out.println("HTTP시스템아웃: " + http);
+     
         http
                 .authorizeHttpRequests((authz) -> authz
                         .anyRequest().authenticated()
@@ -30,12 +30,11 @@ public class WebSecurityConfig {
                 .cors()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        System.out.println("http 메소드체이닝 이후" + http);
+//
         // Jwt filter 등록
         // 매 요청마다 jwtAthenticationFilter 실행
         http.addFilterAfter(jwtAthenticationFilter, CorsFilter.class);
 
-        System.out.println("http 에드 필터 :" + http);
         return http.build();
     }
 
