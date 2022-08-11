@@ -81,11 +81,11 @@ public class TodoController {
 
     //삭제
     @DeleteMapping
-    public ResponseEntity<?> deleteTodo(@AuthenticationPrincipal String userId, @RequestBody TodoDTO dto) {
+    public ResponseEntity<?> deleteTodo(@AuthenticationPrincipal String userId, @RequestBody TodoDTO todoDTO) {
         try {
 //            String temporaryUserId = "Temporary-User";
 
-            TodoEntity entity = TodoDTO.toEntity(dto);
+            TodoEntity entity = TodoDTO.toEntity(todoDTO);
             entity.setUserId(userId);
 
 
