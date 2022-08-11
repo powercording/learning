@@ -1,13 +1,21 @@
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import React from "react";
 
 function Signin() {
+  const navi = useNavigate();
+
   function signin(userDTO) {
     axios
       .post("http://localhost:8080/auth/signin", userDTO)
-      .then((response) => console.log(response.data.token));
+      .then((response) => {
+        if (response.data.token) {
+          localStorage.setItem("ACCESS_TOKEN", response.data.token);
+          navi("/");
+        }
+      });
   }
 
   const onSubmit = (e) => {
@@ -48,6 +56,7 @@ function Signin() {
               name="username"
               label="아이디"
               autoComplete="username"
+              autoFocus
             />
           </Grid>
           <Grid item xs={12}>
@@ -66,6 +75,18 @@ function Signin() {
             <Button type="submit" fullWidth variant="contained">
               Signin
             </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Link to="/signup">
+              <Button fullWidth onClikc={() => {}}>
+                <i
+                  className="fa-solid fa-bell"
+                  style={{ color: "blue", marginRight: "5px" }}
+                  mr={3}
+                ></i>
+                계정만들기
+              </Button>
+            </Link>
           </Grid>
         </Grid>
       </form>

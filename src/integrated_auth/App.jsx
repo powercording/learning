@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import AddToDo from "./AddToDo";
 import ToDo from "./ToDo";
 import { api_base_url } from "./api-config";
+import { RequestToken } from "./api-config";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -12,7 +14,11 @@ function App() {
   //DB에서 TODO 목록 가져오기 (GET 요청)
   useEffect(() => {
     axios
-      .get(`${api_base_url}/todo`)
+      .get(`${api_base_url}/todo`, {
+        headers: {
+          Authorization: RequestToken(),
+        },
+      })
       .then((res) => setItems(res.data.responseList))
       .catch((err) => console.log(err));
   }, []);
@@ -20,20 +26,31 @@ function App() {
   //생성
   const addItem = (item) => {
     axios
-      .post(`${api_base_url}/todo`, item)
+      .post(`${api_base_url}/todo`, item, {
+        headers: {
+          Authorization: RequestToken(),
+        },
+      })
       .then((res) => setItems(res.data.responseList));
   };
   //수정
   const editItem = (item) => {
     axios
-      .put(`${api_base_url}/todo`, item)
+      .put(`${api_base_url}/todo`, item, {
+        headers: {
+          Authorization: RequestToken(),
+        },
+      })
       .then((res) => setItems(res.data.responseList));
   };
   //삭제
   const deleteItem = (item) => {
     axios
-      .delete(`${api_base_url}/todo`, { data: item })
+      .delete(`${api_base_url}/todo`, {data:item, headers: {
+        Authorization: RequestToken(),
+      }}) 
       .then((res) => setItems(res.data.responseList));
+    // .catch((err) => console.log(err));
   };
 
   return (

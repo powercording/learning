@@ -10,8 +10,8 @@ import Signup from "./Signup";
 function AppRouter() {
   return (
     <>
-      <Navbar />
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/signin" element={<Signin />} />

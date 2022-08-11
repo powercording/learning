@@ -10,5 +10,9 @@ if (hostname === "localhost") {
 
 url2 = "http://192.168.0.4:8080";
 
-host = url2;
+host = url1;
 export const api_base_url = `${host}`;
+
+export const RequestToken = () => {
+  return "Bearer " + localStorage.getItem("ACCESS_TOKEN");
+};
