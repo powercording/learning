@@ -3,10 +3,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toDoCategory, toDoState } from "./atoms";
 interface IForm {
-  // [key: string]: string;
-  toDo: string;
-  id: string;
-  email: string;
+  [key: string]: string;
 }
 
 function CreateToDo() {

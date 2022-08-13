@@ -76,8 +76,8 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      {/* <DnDContext /> */}
-      <ToDoList />
+      <DnDContext />
+      {/* <ToDoList /> */}
     </>
   );
 }
