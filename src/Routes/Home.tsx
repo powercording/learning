@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-const Nav = styled.div``;
+const Body = styled.div`
+  height: 2000px;
+`;
 
 function Home() {
-  return <div>Home</div>;
+  return <Body>Home</Body>;
 }
 
 export default Home;

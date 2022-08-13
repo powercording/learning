@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Box, Button, Grid, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion, useAnimation, useScroll } from "framer-motion";
 import { Link, useMatch } from "react-router-dom";
 
 const Svg = styled(motion.svg)`
@@ -42,26 +42,39 @@ const Input = styled(motion.input)`
 
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const animation = useAnimation();
   const homeMatch = useMatch("/");
   const tvMatch = useMatch("tv");
-
+  const { scrollY } = useScroll();
   const openSearch = () => {
+    if (searchOpen) {
+      animation.start({
+        scaleX: 0,
+      });
+    } else {
+      animation.start({
+        scaleX: 1,
+      });
+    }
     setSearchOpen((current) => !current);
   };
 
-  console.log(homeMatch, tvMatch);
-
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
+    <motion.div
+      animate={{
+        backgroundColor:
+          scrollY.get() >= 80 ? "rgba(0,0,0,1)" : "rgba(0,0,0,0)",
+      }}
       style={{
+        display: "flex",
+        flexDirection: "row",
         position: "fixed",
+        alignItems: "center",
+        justifyContent: "space-between",
         top: 0,
-        backgroundColor: "black",
+        backgroundColor: "transparent",
         height: "70px",
+        width: "100%",
       }}
     >
       <Grid
@@ -120,11 +133,16 @@ function Header() {
 
       <Grid item md={6} xs={1}>
         <Box display={"flex"} justifyContent="flex-end" marginRight={3}>
-          <Input type="text" animate={{ scaleX: searchOpen ? 1 : 0 }}></Input>
+          <Input
+            type="text"
+            initial={{ scaleX: 0 }}
+            transition={{ type: "just" }}
+            animate={animation}
+          ></Input>
           <Button onClick={openSearch}>search</Button>
         </Box>
       </Grid>
-    </Grid>
+    </motion.div>
   );
 }
 
