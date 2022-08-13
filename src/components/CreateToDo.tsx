@@ -2,13 +2,21 @@ import { Button, Container, Form, FormGroup, Row } from "reactstrap";
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toDoCategory, toDoState } from "./atoms";
-type IForm = {
+interface IForm {
+  // [key: string]: string;
   toDo: string;
-};
+  id: string;
+  email: string;
+}
 
 function CreateToDo() {
   const setToDos = useSetRecoilState(toDoState);
-  const { register, handleSubmit, setValue } = useForm<IForm>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<IForm>();
   const selectedCategory = useRecoilValue(toDoCategory);
   const handleValid = ({ toDo }: IForm) => {
     setToDos((oldToDos) => [
@@ -17,6 +25,9 @@ function CreateToDo() {
     ]);
     setValue("toDo", "");
   };
+  console.log(errors);
+
+  const ERROR = errors.email || errors.id || errors.toDo;
 
   return (
     <Container className="bg-light border" fluid="lg">
@@ -32,6 +43,25 @@ function CreateToDo() {
               className="form-control"
               draggable="true"
             />
+            <input
+              type="text"
+              {...register("id", {
+                required: "Please write a To Do ",
+              })}
+              placeholder="Write a to do"
+              className="form-control"
+              draggable="true"
+            />
+            <input
+              type="text"
+              {...register("email", {
+                required: "Please write a To Do ",
+              })}
+              placeholder="Write a to do"
+              className="form-control"
+              draggable="true"
+            />
+            <span>{ERROR?.message}</span>
           </FormGroup>
           <Button>Add!</Button>
         </Form>

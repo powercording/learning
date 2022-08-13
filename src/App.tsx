@@ -1,7 +1,7 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
 import DnDContext from "./DnDContext";
-// import ToDoList from "./ToDoList";
+import ToDoList from "./ToDoList";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -76,7 +76,8 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <DnDContext />
+      {/* <DnDContext /> */}
+      <ToDoList />
     </>
   );
 }
