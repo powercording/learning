@@ -4,8 +4,12 @@ import App from "./App";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { Theme } from "./Theme";
 import { RecoilRoot } from "recoil";
+import { QueryClientProvider, QueryClient } from "react-query";
+
+const client = new QueryClient();
 
 const GlobalStyle = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono:wght@300&display=swap');
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -33,7 +37,9 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-  font-family: 'Roboto Mono', monospace;
+	font-family: 'Roboto', sans-serif;
+	color: ${(props) => props.theme.white.darker};
+	background-color : black
 }
 ol, ul {
 	list-style: none;
@@ -76,10 +82,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     {/* <RecoilRoot> */}
-    <ThemeProvider theme={Theme}>
-      <GlobalStyle />
-      <App />
-    </ThemeProvider>
+    <QueryClientProvider client={client}>
+      <ThemeProvider theme={Theme}>
+        <GlobalStyle />
+        <App />
+      </ThemeProvider>
+    </QueryClientProvider>
     {/* </RecoilRoot> */}
   </React.StrictMode>
 );

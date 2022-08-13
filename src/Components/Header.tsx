@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { motion, useAnimation, useScroll } from "framer-motion";
@@ -25,9 +25,9 @@ const logovariant = {
   },
 };
 const Circle = styled(motion.span)`
-  width: 6px;
+  width: 18px;
   height: 6px;
-  background-color: ${(props) => props.theme.red};
+  background-color: lightgreen;
   position: absolute;
   border-radius: 3px;
   bottom: -5px;
@@ -43,9 +43,25 @@ const Input = styled(motion.input)`
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const animation = useAnimation();
+  const navAnimation = useAnimation();
   const homeMatch = useMatch("/");
   const tvMatch = useMatch("tv");
   const { scrollY } = useScroll();
+
+  useEffect(() => {
+    scrollY.onChange(() => {
+      if (scrollY.get() > 80) {
+        navAnimation.start({
+          backgroundColor: "rgba(0,0,0,1)",
+        });
+      } else {
+        navAnimation.start({
+          backgroundColor: "rgba(0,0,0,0)",
+        });
+      }
+    });
+  }, [scrollY]);
+
   const openSearch = () => {
     if (searchOpen) {
       animation.start({
@@ -61,10 +77,7 @@ function Header() {
 
   return (
     <motion.div
-      animate={{
-        backgroundColor:
-          scrollY.get() >= 80 ? "rgba(0,0,0,1)" : "rgba(0,0,0,0)",
-      }}
+      animate={navAnimation}
       style={{
         display: "flex",
         flexDirection: "row",
@@ -72,7 +85,7 @@ function Header() {
         alignItems: "center",
         justifyContent: "space-between",
         top: 0,
-        backgroundColor: "transparent",
+        // backgroundColor: "transparent",
         height: "70px",
         width: "100%",
       }}
@@ -98,7 +111,7 @@ function Header() {
             data-testid="SlideshowIcon"
           >
             <motion.path
-              fill="white"
+              fill="blue"
               d="M10 8v8l5-4-5-4zm9-5H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"
             ></motion.path>
           </Svg>
@@ -107,11 +120,11 @@ function Header() {
         <Grid item position="relative" height={"100%"}>
           <Link to="/">
             <Box display="flex" justifyContent="center">
-              <Typography variant="subtitle1" color={"primary"}>
+              <Typography variant="subtitle1" color={"white"}>
                 Home
               </Typography>
               {homeMatch && (
-                <Circle layoutId="circle" transition={{ duration: 1 }} />
+                <Circle layoutId="circle" transition={{ duration: 0 }} />
               )}
             </Box>
           </Link>
@@ -120,11 +133,11 @@ function Header() {
         <Grid item position="relative">
           <Link to="tv">
             <Box display="flex" justifyContent="center" alignItems="center">
-              <Typography variant="subtitle1" color={"primary"}>
+              <Typography variant="subtitle1" color={"white"}>
                 Tv shows
               </Typography>
               {tvMatch && (
-                <Circle layoutId="circle" transition={{ duration: 1 }} />
+                <Circle layoutId="circle" transition={{ duration: 0 }} />
               )}
             </Box>
           </Link>
@@ -139,7 +152,12 @@ function Header() {
             transition={{ type: "just" }}
             animate={animation}
           ></Input>
-          <Button onClick={openSearch}>search</Button>
+          <Button
+            onClick={openSearch}
+            color={searchOpen ? "primary" : "inherit"}
+          >
+            search
+          </Button>
         </Box>
       </Grid>
     </motion.div>
