@@ -38,6 +38,26 @@ const OverView = styled.p`
 const Slider = styled.div`
   position: relative;
 `;
+const ItemInfo = styled(motion.div)`
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  opacity: 0;
+  color: white;
+  h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  p {
+    font-size: 12px;
+  }
+`;
 
 //나중에 flex로 바꾸어볼까요
 const Row = styled(motion.div)`
@@ -51,12 +71,26 @@ const Row = styled(motion.div)`
 const Item = styled(motion.div)<{ bgImage: string }>`
   background-color: white;
   height: 200px;
-  color: red;
-  font-size: 40px;
+
   background-image: url(${(props) => props.bgImage});
   background-size: cover;
   background-position: center center;
+  &:first-child {
+    transform-origin: center left;
+  }
+  &:last-child {
+    transform-origin: center right;
+  }
 `;
+
+const infoVariants = {
+  hover: {
+    opacity: 1,
+    transition: {
+      delay: 0.5,
+    },
+  },
+};
 function Home() {
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
@@ -89,6 +123,19 @@ function Home() {
       x: -window.outerWidth,
     },
   };
+  const hoverAnimation = {
+    normal: {
+      scale: 1,
+    },
+    hover: {
+      scale: 1.3,
+      y: -50,
+      transition: {
+        delay: 0.5,
+        type: "tween",
+      },
+    },
+  };
   const offset = 6;
 
   return (
@@ -119,9 +166,18 @@ function Home() {
                   .slice(offset * index, offset * index + offset)
                   .map((movie) => (
                     <Item
+                      initial="normal"
+                      whileHover="hover"
+                      variants={hoverAnimation}
                       key={movie.id}
                       bgImage={getImage(movie.backdrop_path, "w400")}
-                    />
+                      transition={{ type: "tween" }}
+                    >
+                      <ItemInfo variants={infoVariants}>
+                        <h4>{movie.title}</h4>
+                        <p>{movie.release_date}</p>
+                      </ItemInfo>
+                    </Item>
                   ))}
               </Row>
             </AnimatePresence>
