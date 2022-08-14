@@ -1,6 +1,6 @@
 const API_KEY = "ad7174cb34a6c9fe500832025e1ef8cb";
 const BASE_URL = "https://api.themoviedb.org/3";
-const API_IMAGE_ADDRESS = "https://image.tmdb.org/t/p/original/";
+const API_IMAGE_ADDRESS = "https://image.tmdb.org/t/p/";
 
 export interface InterfaceResults {
   adult: boolean;
@@ -34,6 +34,9 @@ export function getMovieInfo() {
   );
 }
 
-export function getImage(id: string) {
-  return `${API_IMAGE_ADDRESS}${id}`;
+export function getImage(id: string, width?: string) {
+  if (width) {
+    return `${API_IMAGE_ADDRESS}${width}/${id}`;
+  }
+  return `${API_IMAGE_ADDRESS}original/${id}`;
 }
