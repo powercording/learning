@@ -102,6 +102,18 @@ const Row = styled(motion.div)`
   position: absolute;
   width: 100%;
   top: -110px;
+  @media screen and (max-width: 1600px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media screen and (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media screen and (max-width: 800px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 600px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 const Item = styled(motion.div)<{ bgimage: string }>`
   background-color: white;
