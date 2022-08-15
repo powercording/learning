@@ -141,13 +141,13 @@ const infoVariants = {
 
 const rowVariants = {
   hidden: (isback: boolean) => ({
-    x: isback ? -window.outerWidth + 220 : window.outerWidth - 220,
+    x: isback ? -window.outerWidth : window.outerWidth,
   }),
   visible: {
     x: 0,
   },
   exit: (isback: boolean) => ({
-    x: isback ? window.outerWidth - 220 : -window.outerWidth + 220,
+    x: isback ? window.outerWidth : -window.outerWidth,
   }),
 };
 const SliderButton = styled.button`
@@ -183,7 +183,7 @@ function Home() {
   const [index, setIndex] = useState(0);
   const [isback, setIsback] = useState(false);
   const [leaving, setLeaving] = useState(false);
-  const movieMatch = useMatch("/home/:moviId");
+  const movieMatch = useMatch("/movieclone_build/:moviId");
 
   const navigate = useNavigate();
 
@@ -225,11 +225,11 @@ function Home() {
     data?.results.filter((movie) => movie.id + "" === movieMatch.params.moviId);
 
   const getMovieDetaileInfo = (movieId: string) => {
-    navigate(`/home/${movieId}`);
+    navigate(`/movieclone_build/${movieId}`);
   };
 
   const returnToHome = () => {
-    navigate("/ ");
+    navigate("/movieclone_build");
   };
 
   return (

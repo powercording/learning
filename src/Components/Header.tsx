@@ -118,7 +118,7 @@ function Header() {
         </Grid>
 
         <Grid item position="relative" height={"100%"}>
-          <Link to="/">
+          <Link to="/movieclone_build">
             <Box display="flex" justifyContent="center">
               <Typography variant="subtitle1" color={"white"}>
                 Home
@@ -129,7 +129,7 @@ function Header() {
         </Grid>
 
         <Grid item position="relative">
-          <Link to="tv">
+          <Link to="movieclone_build/tv">
             <Box display="flex" justifyContent="center" alignItems="center">
               <Typography variant="subtitle1" color={"white"}>
                 Tv shows
