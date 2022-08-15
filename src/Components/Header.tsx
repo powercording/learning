@@ -123,9 +123,7 @@ function Header() {
               <Typography variant="subtitle1" color={"white"}>
                 Home
               </Typography>
-              {homeMatch && (
-                <Circle layoutId="circle" transition={{ duration: 0 }} />
-              )}
+              {homeMatch && <Circle />}
             </Box>
           </Link>
         </Grid>
@@ -136,9 +134,7 @@ function Header() {
               <Typography variant="subtitle1" color={"white"}>
                 Tv shows
               </Typography>
-              {tvMatch && (
-                <Circle layoutId="circle" transition={{ duration: 0 }} />
-              )}
+              {tvMatch && <Circle />}
             </Box>
           </Link>
         </Grid>

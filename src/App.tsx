@@ -5,7 +5,6 @@ import Home from "./Routes/Home";
 import Search from "./Routes/Search";
 import Tv from "./Routes/Tv";
 
-
 function App() {
   return (
     <BrowserRouter>
@@ -13,7 +12,9 @@ function App() {
       <Routes>
         <Route path="/tv" element={<Tv />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />}>
+          <Route path="/home/:movieId" element={<Home />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -3,7 +3,9 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getImage, getMovieInfo, InterfaceGetMovieInfo } from "../api";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { useMatch, useNavigate } from "react-router-dom";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 const Wrapper = styled.div`
   background-color: black;
 `;
@@ -19,7 +21,7 @@ const Banner = styled.div<{ backgroundImage: string }>`
   flex-direction: column;
   justify-content: center;
   padding: 60px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 1)),
     url(${(props) => props.backgroundImage});
   background-size: cover;
 `;
@@ -34,7 +36,40 @@ const OverView = styled.p`
   letter-spacing: 2px;
   word-spacing: 6px;
 `;
-
+const MoviDetailImage = styled.div`
+  width: 100%;
+  height: 400px;
+  background-size: cover;
+  background-position: center center;
+  margin-bottom: 10px;
+`;
+const MoviDetailTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 25px;
+  h2 {
+    font-size: 28px;
+  }
+`;
+const MovieDetailContents = styled.div`
+  display: flex;
+  padding: 20px;
+`;
+const MovidetailFooter = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(210, 250, 250, 0.8);
+  height: 35px;
+`;
+const Overlayed = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+`;
 const Slider = styled.div`
   position: relative;
 `;
@@ -68,11 +103,11 @@ const Row = styled(motion.div)`
   width: 100%;
   top: -110px;
 `;
-const Item = styled(motion.div)<{ bgImage: string }>`
+const Item = styled(motion.div)<{ bgimage: string }>`
   background-color: white;
   height: 200px;
-
-  background-image: url(${(props) => props.bgImage});
+  cursor: pointer;
+  background-image: url(${(props) => props.bgimage});
   background-size: cover;
   background-position: center center;
   &:first-child {
@@ -81,6 +116,18 @@ const Item = styled(motion.div)<{ bgImage: string }>`
   &:last-child {
     transform-origin: center right;
   }
+`;
+const MovieDtaile = styled(motion.div)`
+  position: fixed;
+  background-color: black;
+  width: 35vw;
+  height: 80vh;
+  top: 150px;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  border-radius: 15px;
+  overflow: hidden;
 `;
 
 const infoVariants = {
@@ -91,9 +138,54 @@ const infoVariants = {
     },
   },
 };
+
+const rowVariants = {
+  hidden: (isback: boolean) => ({
+    x: isback ? -window.outerWidth + 220 : window.outerWidth - 220,
+  }),
+  visible: {
+    x: 0,
+  },
+  exit: (isback: boolean) => ({
+    x: isback ? window.outerWidth - 220 : -window.outerWidth + 220,
+  }),
+};
+const SliderButton = styled.button`
+  height: 40px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  color: whitesmoke;
+  border: none;
+  cursor: pointer;
+  &:first-child {
+    left: 10px;
+  }
+  &:last-child {
+    right: 10px;
+  }
+`;
+const hoverAnimation = {
+  normal: {
+    scale: 1,
+  },
+  hover: {
+    scale: 1.3,
+    y: -50,
+    transition: {
+      delay: 0.5,
+      type: "tween",
+    },
+  },
+};
 function Home() {
   const [index, setIndex] = useState(0);
+  const [isback, setIsback] = useState(false);
   const [leaving, setLeaving] = useState(false);
+  const movieMatch = useMatch("/home/:moviId");
+
+  const navigate = useNavigate();
 
   const toggleLeaving = () => {
     setLeaving((prev) => !prev);
@@ -101,42 +193,44 @@ function Home() {
   const increaseIndex = () => {
     if (data) {
       if (leaving) return;
+      setIsback((prev) => false);
       toggleLeaving();
       const totalMovie = data?.results.length - 1;
-      const indexLimit = Math.ceil(totalMovie / offset) - 1;
+      const indexLimit = Math.floor(totalMovie / offset) - 1;
 
       setIndex((prev) => (prev === indexLimit ? 0 : prev + 1));
     }
   };
+  const decreaseIndex = () => {
+    if (data) {
+      setIsback((prev) => true);
+      if (leaving) return;
+      toggleLeaving();
+      const totalMovie = data?.results.length - 1;
+      const indexLimit = Math.floor(totalMovie / offset) - 1;
+
+      setIndex((prev) => (prev === 0 ? indexLimit : prev - 1));
+    }
+  };
+
   const { isLoading, data } = useQuery<InterfaceGetMovieInfo>(
     ["movies", "nowPlaying"],
     getMovieInfo
   );
-  const rowVariants = {
-    hidden: {
-      x: window.outerWidth,
-    },
-    visible: {
-      x: 0,
-    },
-    exit: {
-      x: -window.outerWidth,
-    },
-  };
-  const hoverAnimation = {
-    normal: {
-      scale: 1,
-    },
-    hover: {
-      scale: 1.3,
-      y: -50,
-      transition: {
-        delay: 0.5,
-        type: "tween",
-      },
-    },
-  };
+
   const offset = 6;
+
+  const clickedMovieInfo =
+    movieMatch?.params.moviId &&
+    data?.results.filter((movie) => movie.id + "" === movieMatch.params.moviId);
+
+  const getMovieDetaileInfo = (movieId: string) => {
+    navigate(`/home/${movieId}`);
+  };
+
+  const returnToHome = () => {
+    navigate("/ ");
+  };
 
   return (
     <Wrapper>
@@ -145,15 +239,29 @@ function Home() {
       ) : (
         <>
           <Banner
-            onClick={increaseIndex}
             backgroundImage={getImage(data?.results[0].backdrop_path || "")}
           >
             <Title>{data?.results[0].title}</Title>
             <OverView>{data?.results[0].overview}</OverView>
           </Banner>
+          <div style={{ display: "flex", position: "relative", top: -150 }}>
+            <SliderButton onClick={decreaseIndex}>
+              <ArrowBackIosIcon />
+              PREV
+            </SliderButton>
+            <SliderButton onClick={increaseIndex}>
+              NEXT
+              <ArrowForwardIosIcon />
+            </SliderButton>
+          </div>
           <Slider>
-            <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+            <AnimatePresence
+              initial={false}
+              onExitComplete={toggleLeaving}
+              custom={isback}
+            >
               <Row
+                custom={isback}
                 variants={rowVariants}
                 initial="hidden"
                 animate="visible"
@@ -166,12 +274,14 @@ function Home() {
                   .slice(offset * index, offset * index + offset)
                   .map((movie) => (
                     <Item
+                      onClick={() => getMovieDetaileInfo(movie.id + "")}
                       initial="normal"
                       whileHover="hover"
                       variants={hoverAnimation}
                       key={movie.id}
-                      bgImage={getImage(movie.backdrop_path, "w400")}
+                      bgimage={getImage(movie.backdrop_path, "w400")}
                       transition={{ type: "tween" }}
+                      layoutId={movie.id + ""}
                     >
                       <ItemInfo variants={infoVariants}>
                         <h4>{movie.title}</h4>
@@ -180,6 +290,41 @@ function Home() {
                     </Item>
                   ))}
               </Row>
+            </AnimatePresence>
+            <AnimatePresence>
+              {movieMatch ? (
+                <>
+                  <Overlayed
+                    onClick={returnToHome}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  />
+                  <MovieDtaile layoutId={movieMatch.params.moviId}>
+                    {clickedMovieInfo && (
+                      <>
+                        <MoviDetailImage
+                          style={{
+                            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,1)),url(${getImage(
+                              clickedMovieInfo[0].backdrop_path,
+                              "w400"
+                            )})`,
+                            fontSize: 0,
+                          }}
+                        ></MoviDetailImage>
+
+                        <MoviDetailTitle>
+                          <h2>{clickedMovieInfo[0].title}</h2>
+                          <p>{clickedMovieInfo[0].release_date}</p>
+                        </MoviDetailTitle>
+                        <MovieDetailContents>
+                          <p>{clickedMovieInfo[0].overview}</p>
+                        </MovieDetailContents>
+                        <MovidetailFooter></MovidetailFooter>
+                      </>
+                    )}
+                  </MovieDtaile>
+                </>
+              ) : null}
             </AnimatePresence>
           </Slider>
         </>
