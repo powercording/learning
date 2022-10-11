@@ -162,6 +162,11 @@ const rowVariants = {
     x: isback ? window.outerWidth : -window.outerWidth,
   }),
 };
+const StyledDiv = styled.div`
+  display: flex;
+  position: relative;
+  top: -150px;
+`;
 const SliderButton = styled.button`
   height: 40px;
   position: absolute;
@@ -178,6 +183,9 @@ const SliderButton = styled.button`
     right: 10px;
   }
 `;
+const P = styled.p``;
+const H2 = styled.h2``;
+const H4 = styled.h4``;
 const hoverAnimation = {
   normal: {
     scale: 1,
@@ -256,7 +264,7 @@ function Home() {
             <Title>{data?.results[0].title}</Title>
             <OverView>{data?.results[0].overview}</OverView>
           </Banner>
-          <div style={{ display: "flex", position: "relative", top: -150 }}>
+          <StyledDiv>
             <SliderButton onClick={decreaseIndex}>
               <ArrowBackIosIcon />
               PREV
@@ -265,7 +273,7 @@ function Home() {
               NEXT
               <ArrowForwardIosIcon />
             </SliderButton>
-          </div>
+          </StyledDiv>
           <Slider>
             <AnimatePresence
               initial={false}
@@ -296,8 +304,8 @@ function Home() {
                       layoutId={movie.id + ""}
                     >
                       <ItemInfo variants={infoVariants}>
-                        <h4>{movie.title}</h4>
-                        <p>{movie.release_date}</p>
+                        <H4>{movie.title}</H4>
+                        <P>{movie.release_date}</P>
                       </ItemInfo>
                     </Item>
                   ))}
@@ -325,11 +333,11 @@ function Home() {
                         ></MoviDetailImage>
 
                         <MoviDetailTitle>
-                          <h2>{clickedMovieInfo[0].title}</h2>
-                          <p>{clickedMovieInfo[0].release_date}</p>
+                          <H2>{clickedMovieInfo[0].title}</H2>
+                          <P>{clickedMovieInfo[0].release_date}</P>
                         </MoviDetailTitle>
                         <MovieDetailContents>
-                          <p>{clickedMovieInfo[0].overview}</p>
+                          <P>{clickedMovieInfo[0].overview}</P>
                         </MovieDetailContents>
                         <MovidetailFooter></MovidetailFooter>
                       </>

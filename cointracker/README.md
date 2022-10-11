@@ -1,46 +1,24 @@
-# Getting Started with Create React App
+> ## CoinTracker
+>
+> > [DEMO](https://webdevfront.com/cointracker/) <<클릭
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 사용 라이브러리
 
-## Available Scripts
+- ### react-router-dom
+- ### react-helmet
+- ### axios
+- ### apex chart
 
-In the project directory, you can run:
+<hr>
+암호화폐 거래소에서 제공하는 API 를 활용하여 실시간으로 시세조회를 합니다. 리액트 헬멧 라이브러리로 헤더에대한 메타크스트립트를 작성 할수 있고, axios 를 사용하여 http 통신을 했습니다.  차트 라이브러리를 사용해 가져온 데이터를 활용하여 시각적으로 표현하였습니다. 
 
-### `npm start`
+### gif
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/105046423/195066011-6fd7d2ae-a859-46b9-b71a-19c809446fc7.gif)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<hr/>
 
-### `npm test`
+> 1. 차트 라이브러리를 내 입맛에 맞게 사용 하는게 까다로웠습니다. 참고할 수 있는 자료들도 버전에 따른 사용 방법이 약간 다른것 같고, 
+원하는 차트 디자인에 따라 요구되는 데이터의 가짓수도 다르기 때문에 시간을 많이 잡아먹었습니다.
+> 2. API 데이터를 라이브러리의 데이터로 사용하는데 자바스크립트의 기본 표현방법부터 다시 공부해야 했습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

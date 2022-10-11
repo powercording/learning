@@ -58,8 +58,8 @@ function Coin() {
           <InfoElements>⬇ 오늘 최저가 {item.low_price} 원</InfoElements>
         </InfoElementsBox>
       ))}
-      <ChartMinutes coinId={coinId!} />
-      <ChartDay coinId={coinId!} />
+      <ChartMinutes coinId={coinId + ""} />
+      <ChartDay coinId={coinId + ""} />
     </Container>
   );
 }
