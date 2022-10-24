@@ -84,12 +84,12 @@ function Coins({ toggle, isdark }: IRouter) {
       <NameWrapper>
         <Header>{isLoading ? "Loading" : <Link to={"/"}>COIN</Link>}</Header>
         <button onClick={toggle}>{isdark ? "Light on!" : "Light off!"}</button>
-        <CoinName>name here</CoinName>  
+        <CoinName>name here</CoinName>
         <br />
         <KRWCoins>
           {newArray?.map((eachCoin, index) => (
             <Coin key={index}>
-              <Link to={`/${eachCoin.market}`}>
+              <Link to={`/cointracker/${eachCoin.market}`}>
                 {eachCoin.english_name.toUpperCase()}
               </Link>
             </Coin>
