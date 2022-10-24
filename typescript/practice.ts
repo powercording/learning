@@ -144,4 +144,52 @@ function add<T extends number>(x: T, y: T): T {
   return x + y;
 }
 
-add("1", "2");
+add(1, 2);
+
+interface Array<T> {
+  forEach(
+    callbackfn: (value: T, index: number, array: T[]) => void,
+    thisArg?: any
+  ): void;
+  map<U>(
+    callbackfn: (value: T, index: number, array: T[]) => U,
+    thisArg?: any
+  ): U[];
+}
+
+["1", 2, true].forEach((value) => console.log(value));
+
+function add<T extends abstract new (...arge: any) => any>(x: T): T {
+  return x;
+}
+
+interface Arr<T> {
+  forEach(callback: (item: T) => void): void;
+  map<U>(callback: (item: T) => U): U[];
+  filter<N extends T>(callback: (item: T) => item is N): N[];
+}
+const mathodddd: Arr<number> = [2, 3, 4, 1];
+mathodddd.forEach((value) => console.log(value));
+
+const bthod: Arr<number> = [1, 2, 3];
+const bthodMap = bthod.map((item) => item + 1); // [2, 3, ,4]  number[]
+const Bbthod = bthod.map((item) => item.toString()); // ["2", "3", "4"] string []
+const boolmap = bthod.map((item) => item % 2 === 0); // [true , false , true] boolean []
+
+const stringMethod: Arr<string> = ["1", "2", "3"];
+const stringMap = stringMethod.map((item) => +item);
+
+const arrFilter: Arr<number> = [1, 2, 3, 4, 5, 6];
+const filterOne = arrFilter.filter((item): item is number => item % 2 === 0); // [2] number []
+
+const arrFilterTwo: Arr<number | string> = [1, "2", 3, "4", 5, 6];
+const filterTwo = arrFilterTwo.filter(
+  (item): item is string => typeof item === "string"
+); // ["2" , "4"] string []
+const filterThree = arrFilterTwo.filter(
+  (item): item is number => typeof item === "number"
+);
+const filterOptions = (item: string | number): item is number =>
+  typeof item === "number";
+
+const filterfour = arrFilterTwo.filter(filterOptions);
